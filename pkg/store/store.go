@@ -1,7 +1,7 @@
 package store
 
 import (
-	task "github.com/idirall22/products_api/api"
+	task "github.com/idirall22/todo_api/api"
 )
 
 // Store interface

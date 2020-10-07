@@ -1,8 +1,8 @@
 package service
 
 import (
-	task "github.com/idirall22/products_api/api"
-	"github.com/idirall22/products_api/pkg/store"
+	task "github.com/idirall22/todo_api/api"
+	"github.com/idirall22/todo_api/pkg/store"
 )
 
 // Service struct
