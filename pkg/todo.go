@@ -21,7 +21,7 @@ func (s *Service) CreateTask(formTask task.Form) (int64, error) {
 }
 
 // GetTask single task
-func (s *Service) GetTask(id int64) task.Task {
+func (s *Service) GetTask(id int64) (task.Task, error) {
 	return s.store.Get(id)
 }
 
@@ -31,8 +31,8 @@ func (s *Service) ListTask() []task.Task {
 }
 
 // UpdateTask single task
-func (s *Service) UpdateTask(task task.Task) error {
-	return s.store.Update(task)
+func (s *Service) UpdateTask(id int64, form task.Form) error {
+	return s.store.Update(id, form)
 }
 
 // DeleteTask single task
