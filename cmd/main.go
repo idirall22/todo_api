@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -21,6 +20,7 @@ func main() {
 	// curl -d '{"title": "first task", "descritption": "simple"}' -H "Content-Type: application/json" -X POST 127.0.0.1:3000/api/v1/todos
 	v1.Post("/todos", func(c *fiber.Ctx) error {
 		form := task.Form{}
+		// we parse the request body
 		if err := c.BodyParser(&form); err != nil {
 			return c.SendStatus(400)
 		}
@@ -36,6 +36,7 @@ func main() {
 	// GET single task
 	// curl -H "Content-Type: application/json" 127.0.0.1:3000/api/v1/todos/1
 	v1.Get("/todos/:id", func(c *fiber.Ctx) error {
+		// we parse the id from params
 		id, err := strconv.ParseInt(c.Params("id"), 10, 64)
 		if err != nil {
 			return c.SendStatus(400)
@@ -69,12 +70,13 @@ func main() {
 		if err != nil {
 			return c.SendStatus(400)
 		}
+
 		form := task.Form{}
-		if err := json.Unmarshal(c.Body(), &form); err != nil {
+		if err := c.BodyParser(&form); err != nil {
 			return c.SendStatus(400)
 		}
-		tasks := service.UpdateTask(id, form)
-		return c.JSON(tasks)
+		_ = service.UpdateTask(id, form)
+		return c.SendStatus(204)
 	})
 
 	// Delete a task
@@ -89,7 +91,7 @@ func main() {
 		if err != nil {
 			return c.SendStatus(400)
 		}
-		service.DeleteTask(id)
+		_ = service.DeleteTask(id)
 		return c.SendStatus(204)
 	})
 
@@ -105,7 +107,7 @@ func main() {
 		if err != nil {
 			return c.SendStatus(400)
 		}
-		service.ToggleDoneTask(id)
+		_ = service.ToggleDoneTask(id)
 		return c.SendStatus(204)
 	})
 	app.Listen(":3000")
